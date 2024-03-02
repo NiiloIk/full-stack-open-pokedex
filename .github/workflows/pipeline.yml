@@ -43,10 +43,14 @@ jobs:
     tag_release:
         needs: [simple_deployment_pipeline]
         runs-on: ubuntu-20.04
+        if: ${{ github.event_name == 'push' && !toJson(github.event.commits.*.message).includes('#skip') }}
         steps:
+          - name: Checkout code
+            uses: actions/checkout@v4
+
           - name: Bump version and push tag
-            if: ${{ github.event_name == 'push' }}
             uses: anothrNick/github-tag-action@1.67.0
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               DEFAULT_BUMP: patch
+              DRY_RUN: true
