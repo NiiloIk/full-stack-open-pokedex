@@ -53,7 +53,7 @@ jobs:
             if: failure()
             with:
                 severity: error
-                details: commit ${{ github.event.head_commit.url }} failed
+                details: commit ${{ github.event.pull_request.head.sha }} failed
                 text: Build failed!
                 webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
             
